@@ -1,21 +1,18 @@
-name: env_tutorial
-on: [pull_request, push]
-
-# Cette section définit la variable pour TOUT le workflow
-env:
-  API_KEY: MA_CLE_SECRETE_123
-
+name: build
+on: push
 jobs:
   job1:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - name: step 1
-        # Syntaxe avec accolades
-        run: echo "The API key is: ${{ env.API_KEY }}"
-
+      - id: set-matrix
+        run: echo
+          "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
   job2:
+    needs: job1
     runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
-      - name: step 1
-        # Syntaxe shell standard (fonctionne aussi)
-        run: echo "The API key is: $API_KEY"
+      - run: build
