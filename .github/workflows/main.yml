@@ -1,12 +1,12 @@
 name: env_tutorial
 on: [pull_request, push]
 
-env:
-  API_KEY: MA_CLE_SECRETE_123
-
 jobs:
   job1:
     runs-on: ubuntu-latest
+    # CHANGEMENT : La variable est maintenant définie À L'INTÉRIEUR de job1
+    env:
+      API_KEY: MA_CLE_SECRETE_123
     steps:
       - name: step 1
         run: echo "The API key is ${{ env.API_KEY }}"
@@ -15,4 +15,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: step 1
+        # Ici, job2 ne connait pas la variable, ça affichera vide
         run: echo "The API key is $API_KEY"
