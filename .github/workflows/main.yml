@@ -1,7 +1,6 @@
 name: env_tutorial
 on: [pull_request, push]
 
-# Cette section définit la variable pour TOUT le workflow
 env:
   API_KEY: MA_CLE_SECRETE_123
 
@@ -10,12 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: step 1
-        # Syntaxe avec accolades
-        run: echo "The API key is: ${{ env.API_KEY }}"
+        run: echo "The API key is ${{ env.API_KEY }}"
 
   job2:
     runs-on: ubuntu-latest
     steps:
       - name: step 1
-        # Syntaxe shell standard (fonctionne aussi)
-        run: echo "The API key is: $API_KEY"
+        run: echo "The API key is $API_KEY"
